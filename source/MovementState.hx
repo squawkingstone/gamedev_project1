@@ -1,41 +1,52 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
-import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
 import flixel.FlxCamera.FlxCameraFollowStyle;
+import flixel.addons.editors.tiled.TiledMap;
+import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
+import flixel.addons.editors.tiled.TiledTileLayer;
+import flixel.FlxObject;
+import flixel.math.FlxRect;
 
 class MovementState extends FlxState
 {
 
     var _player : Player;
-    var _level : FlxTilemap;
+    var _background : FlxTilemap;
+    var _walls : FlxTilemap;
+    var _climb : FlxTilemap;
+
+    var _zoom_level = 2;
 
     override public function create():Void
     {
-        FlxG.camera.bgColor = 0xFFFFA0A0;
         FlxG.debugger.drawDebug = true;
 
-        var level_array:Array<Int> = [
-            1,1,1,1,1,1,1,1,1,1,
-            1,0,0,0,0,0,0,2,2,1,
-            1,0,0,0,0,0,0,2,2,1,
-            1,0,0,1,1,1,1,2,2,1,
-            1,0,0,0,0,0,0,2,2,1,    
-            1,0,0,0,0,0,0,2,2,1,
-            1,0,0,0,0,0,0,2,2,1,
-            1,1,1,0,0,0,0,2,2,1,
-            1,1,1,1,1,1,1,1,1,1,
-        ];
+        // LOAD THE MAP
 
-        _level = new FlxTilemap();
-        _level.loadMapFromArray(level_array, 10, 9, AssetPaths.tiles__png, 16, 16, FlxTilemapAutoTiling.OFF, 0, 1, FlxObject.NONE);
-        _level.setTileProperties(0, FlxObject.NONE, null, null, 1);
-        _level.setTileProperties(1, FlxObject.ANY, null, null, 1);
-        _level.setTileProperties(2, FlxObject.NONE, null, null, 1);
-        add(_level);
+        var tiled_map:TiledMap = new TiledMap("assets/maps/temp.tmx");
+        FlxG.worldBounds.set(0, 0, tiled_map.fullWidth, tiled_map.fullHeight);
+
+        _background = new FlxTilemap();
+        var bg_layer:TiledTileLayer = cast(tiled_map.getLayer("Background"), TiledTileLayer);
+        _background.loadMapFromArray(bg_layer.tileArray, bg_layer.width, bg_layer.height, AssetPaths.tiles__png, tiled_map.tileWidth, tiled_map.tileHeight, OFF, 1, 1, 1);        
+        add(_background);
+
+        _walls = new FlxTilemap();
+        var wall_layer:TiledTileLayer = cast(tiled_map.getLayer("Walls"), TiledTileLayer);
+        _walls.loadMapFromArray(wall_layer.tileArray, 32, 16, AssetPaths.tiles__png, tiled_map.tileWidth, tiled_map.tileHeight, OFF, 1, 1, 3);
+        _walls.setTileProperties(2, FlxObject.ANY, null, null);
+        add(_walls);
+
+        _climb = new FlxTilemap();
+        var climb_layer:TiledTileLayer = cast(tiled_map.getLayer("Climbable"), TiledTileLayer);
+        _climb.loadMapFromArray(climb_layer.tileArray, climb_layer.width, climb_layer.height, AssetPaths.tiles__png, tiled_map.tileWidth, tiled_map.tileHeight, OFF, 1, 1, 1);
+        add(_climb);
+
+        // DO THE PLAYER THING        
 
         _player = new Player(24,24);
         add(_player);
@@ -47,10 +58,8 @@ class MovementState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
-        FlxG.collide(_player, _level, null);
-        // check if the player has overlapped with any 2 tile and then pass that
-        // bool to the process movement function  
-        _player.process_movement();
+        FlxG.collide(_walls, _player, null);
+        _player.process_movement(false);
         super.update(elapsed);
     }
 

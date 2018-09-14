@@ -59,7 +59,7 @@ class MovementState extends FlxState
     override public function update(elapsed:Float):Void
     {
         FlxG.collide(_walls, _player, null);
-        _player.process_movement(false);
+        _player.process_movement(_climb.overlaps(_player, false, null));
         super.update(elapsed);
     }
 

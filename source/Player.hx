@@ -29,10 +29,11 @@ class Player extends FlxSprite
     {
         super(X, Y, SimpleGraphic);
         loadGraphic("assets/images/player.png", true, 16, 16);
-        animation.add("walking_right", [0], 1, true, false, false);
-        animation.add("walking_left", [0], 1, true, true, false);
+        setFacingFlip(FlxObject.LEFT, true, false);
+        setFacingFlip(FlxObject.RIGHT, false, false);
+        animation.add("walking", [0], 1, true, false, false);
         animation.add("climbing", [1], 1, true, false, false);
-        animation.play("walking_right");
+        animation.play("walking");
         acceleration.y = _gravity;
     }
 
@@ -61,17 +62,15 @@ class Player extends FlxSprite
             velx += (FlxG.keys.anyPressed(["RIGHT", "D"])) ? _walking_speed : 0.0;
             velx -= (FlxG.keys.anyPressed(["LEFT", "A"])) ? _walking_speed : 0.0;
             if (velx > 0.0) // this is bad, fix it later
-            {
-                animation.play("walking_right"); 
-                _facing = FlxObject.RIGHT;
+            { 
+                facing = FlxObject.RIGHT;
             }
             if (velx < 0.0) 
             {
-                animation.play("walking_left");
-                _facing = FlxObject.LEFT;
+                facing = FlxObject.LEFT;
             }
             velocity.x = velx;
-            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.FLOOR)) velocity.y = -_jump_speed;
+            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.WALL)) velocity.y = -_jump_speed;
             if ((FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W) && climb_overlap) toggle_climbing(true, false);
         }
     }

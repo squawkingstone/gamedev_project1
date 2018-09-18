@@ -10,11 +10,14 @@ import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
 import flixel.addons.editors.tiled.TiledTileLayer;
 import flixel.FlxObject;
 import flixel.math.FlxRect;
+import flixel.FlxSprite;
 
 class MovementState extends FlxState
 {
 
     var _player : Player;
+    var _attack_object : FlxObject;
+    var _cache : FlxSprite;
     var _background : FlxTilemap;
     var _walls : FlxTilemap;
     var _climb : FlxTilemap;
@@ -51,6 +54,18 @@ class MovementState extends FlxState
         _player = new Player(24,24);
         add(_player);
 
+        _attack_object = new FlxObject(_player.x, _player.y, _player.width, _player.height);
+        _attack_object.allowCollisions = FlxObject.NONE;
+        add(_attack_object);
+
+        // I should just add in a graphic thing and call it good for the test cache
+        _cache = new FlxSprite(16, 192);
+        _cache.makeGraphic(32, 32, 0xFFFFFFFF, false, null);
+        _cache.setSize(32, 32);
+        _cache.allowCollisions = FlxObject.ANY;
+        _cache.immovable = true;
+        add(_cache);
+
         FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.5);
 
         super.create();
@@ -58,9 +73,24 @@ class MovementState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
-        FlxG.collide(_walls, _player, null);
-        _player.process_movement(_climb.overlaps(_player, false, null));
         super.update(elapsed);
+        FlxG.collide(_walls, _player, null);
+        FlxG.collide(_cache, _player, null);
+        _player.process_movement(_climb.overlaps(_player, false, null));
+        var diff = (_player._facing == FlxObject.LEFT) ? -_player.width : _player.width;
+        _attack_object.setPosition(_player.x + diff, _player.y);
+        _player.process_attack(null);
+        _player.process_dissect(_attack_object.overlaps(_cache, false, null), elapsed, _cache);
+        // I have to check this overlap with every enemy, then go from there
+        // I'll also have to check overlap with every cache in the game to see about that...
+
+        /*
+            So for the caching, then on justPressed, set some var to true, and start a counter counting
+            down, then, I just check each update if I'm still overlapping the cache and then continue
+            decrementing, otherwise, cancel the whole thing. Maybe I'll talk to the specific cache
+            object and call some function inside there so the thing can maintain a running track of it's
+            state, then the player could resume dissecting it after cancelling... I'll see
+        */
     }
 
 }

@@ -81,7 +81,7 @@ class MovementState extends FlxState
         // check attack against every cache
         if (_attack_object.overlaps(_cache, false, null))
         {
-            _player.process_cache_attack(_cache);
+            _player.process_attack(_cache);
         }
         // I have to check this overlap with every enemy, then go from there
         // I'll also have to check overlap with every cache in the game to see about that...

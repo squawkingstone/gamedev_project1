@@ -76,14 +76,8 @@ class Player extends FlxSprite
         }
     }
 
-    // enemy attack function
-    public function process_enemy_attack(target:FlxSprite)
-    {
-
-    }
-
     // cache attack function
-    public function process_cache_attack(target:Cache)
+    public function process_attack(target:FlxSprite)
     {
         if (FlxG.keys.justPressed.F && _attack_countdown <= 0.0) 
         { 

@@ -15,16 +15,15 @@ class Player extends FlxSprite
     var _jump_speed = 100.0;
     var _gravity = 200.0;
     var _attack_cooldown = 1.0;
-    var _dissect_time = 20.0;
+    var _damage = 1;
 
     /* DYNAMIC PROPERTIES */
     var _climbing:Bool = false;
-    var _dissecting:Bool = false;
     var _attack_countdown = 0.0;
-    var _dissect_countdown = 0.0;
     
     /* PUBLIC VARIABLES */
     public var _facing = FlxObject.LEFT;
+    public var _points:Int = 0;
 
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
     {
@@ -77,57 +76,20 @@ class Player extends FlxSprite
         }
     }
 
-    // function assumes overlap, otherwise it's not called
-    public function process_attack(enemy:FlxObject)
+    // enemy attack function
+    public function process_enemy_attack(target:FlxSprite)
     {
-        // do some amount of damage to the enemy, then wait for a cooldown so you can't just spam the
-        // attack button and do infinite damage
-        
-        /*
-            check if I've just pressed the button and the cooldown is zero. cooldown will get decremented
-            in update
-        */
-        if (FlxG.keys.justPressed.F && _attack_countdown <= 0.0) 
-        { 
-            trace("ATTACK");
-            _attack_countdown = _attack_cooldown;
-        }
+
     }
 
-    /*  This is lightly correct. Ultimately, I'll want to make a cache object later with it's own 
-        behavior. It should store it's own "health" and the dissection should be done with damage and
-        timing. Maybe I should just not have a time and just have it take damage and then call that
-        good, might be fine.... we should probably have different sprites with a damage progression...
-        then it can just not take damage if it's been "killed"
-     */
-    public function process_dissect(overlapping:Bool, elapsed:Float, cache:FlxSprite) 
+    // cache attack function
+    public function process_cache_attack(target:Cache)
     {
-        if (overlapping && (FlxG.keys.pressed.F || FlxG.keys.justPressed.F))
-        {
-            if (!_dissecting)
-            {
-                _dissecting = true;
-                _dissect_countdown = _dissect_time;
-            }
-            else
-            {
-                _dissect_countdown -= elapsed;
-                if (_dissect_countdown <= 0.0)
-                {
-                    trace("DONE DISSECTING"); // destroy cache and add points
-                    cache.kill(); // make sure to disable collision or overlap here, because currently
-                                  // overlap call still returns true after kill() or destroy()
-                    _dissecting = false;
-                }
-            } 
-        }
-        else 
-        {
-            if (_dissecting)
-            {
-                _dissecting = false;
-                _dissect_countdown = 0.0;
-            }
+        if (FlxG.keys.justPressed.F && _attack_countdown <= 0.0) 
+        { 
+            target.hurt(_damage);
+            _attack_countdown = _attack_cooldown;
+            trace(target.health);
         }
     }
 
@@ -151,7 +113,6 @@ class Player extends FlxSprite
     {
         super.update(elapsed);
         if (_attack_countdown > 0.0) _attack_countdown -= elapsed;
-        trace(_dissect_countdown);
     }
 
 }

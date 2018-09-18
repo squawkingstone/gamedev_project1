@@ -17,7 +17,7 @@ class MovementState extends FlxState
 
     var _player : Player;
     var _attack_object : FlxObject;
-    var _cache : FlxSprite;
+    var _cache : Cache;
     var _background : FlxTilemap;
     var _walls : FlxTilemap;
     var _climb : FlxTilemap;
@@ -59,11 +59,7 @@ class MovementState extends FlxState
         add(_attack_object);
 
         // I should just add in a graphic thing and call it good for the test cache
-        _cache = new FlxSprite(16, 192);
-        _cache.makeGraphic(32, 32, 0xFFFFFFFF, false, null);
-        _cache.setSize(32, 32);
-        _cache.allowCollisions = FlxObject.ANY;
-        _cache.immovable = true;
+        _cache = new Cache(16, 192);
         add(_cache);
 
         FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.5);
@@ -79,8 +75,14 @@ class MovementState extends FlxState
         _player.process_movement(_climb.overlaps(_player, false, null));
         var diff = (_player._facing == FlxObject.LEFT) ? -_player.width : _player.width;
         _attack_object.setPosition(_player.x + diff, _player.y);
-        _player.process_attack(null);
-        _player.process_dissect(_attack_object.overlaps(_cache, false, null), elapsed, _cache);
+        
+        // check attack against every enemy
+
+        // check attack against every cache
+        if (_attack_object.overlaps(_cache, false, null))
+        {
+            _player.process_cache_attack(_cache);
+        }
         // I have to check this overlap with every enemy, then go from there
         // I'll also have to check overlap with every cache in the game to see about that...
 

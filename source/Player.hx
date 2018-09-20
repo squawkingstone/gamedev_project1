@@ -70,7 +70,7 @@ class Player extends FlxSprite
                 facing = FlxObject.LEFT;
             }
             velocity.x = velx;
-            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.WALL)) velocity.y = -_jump_speed;
+            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.FLOOR)) velocity.y = -_jump_speed;
             if ((FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W) && climb_overlap) toggle_climbing(true, false);
         }
     }

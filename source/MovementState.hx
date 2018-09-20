@@ -19,7 +19,7 @@ class MovementState extends FlxState
     var _attack_object : FlxObject;
     var _cache : Cache;
     var _level : Level;
-
+    var _monster : Monster;
     var _zoom_level = 2;
 
     override public function create():Void
@@ -38,7 +38,9 @@ class MovementState extends FlxState
         add(_level.get_climb());   
 
         _player = new Player(24,24);
+        _monster = new Monster(70,24);
         add(_player);
+        add(_monster);
 
         _attack_object = new FlxObject(_player.x, _player.y, _player.width, _player.height);
         _attack_object.allowCollisions = FlxObject.NONE;
@@ -56,6 +58,7 @@ class MovementState extends FlxState
     {
         super.update(elapsed);
         FlxG.collide(_level.get_walls(), _player, null);
+        FlxG.collide(_level.get_walls(), _monster, null);
         FlxG.collide(_cache, _player, null);
         _player.process_movement(_level.get_climb().overlaps(_player, false, null));
         var diff = (_player._facing == FlxObject.LEFT) ? -_player.width : _player.width;

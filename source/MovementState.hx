@@ -61,7 +61,7 @@ class MovementState extends FlxState
         FlxG.collide(_level.get_walls(), _monster, null);
         FlxG.collide(_cache, _player, null);
         _player.process_movement(_level.get_climb().overlaps(_player, false, null));
-        var diff = (_player._facing == FlxObject.LEFT) ? -_player.width : _player.width;
+        var diff = (_player.facing == FlxObject.LEFT) ? -_player.width : _player.width;
         _attack_object.setPosition(_player.x + diff, _player.y);
         
         //make a group of all the enemies and caches and use the attack as callback

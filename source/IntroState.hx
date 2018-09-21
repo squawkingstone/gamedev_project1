@@ -27,7 +27,7 @@ class IntroState extends FlxState
     }
     function clickPlay():Void
     {
-        FlxG.switchState(new Level3());
+        FlxG.switchState(new Level1());
     }
 
 }

@@ -8,7 +8,7 @@ class Level2 extends Level
     {
         _file = "assets/maps/stomach.tmx";
         _tilemap = AssetPaths.guts__png;
-        _player_start_position = new FlxPoint(2000, 1100);
+        _player_start_position = new FlxPoint(700, 2800);
         
         _monster_start_positions = new Array();
         _monster_start_positions.push(new FlxPoint(70, 48));

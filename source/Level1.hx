@@ -8,7 +8,7 @@ class Level1 extends Level
     {
         _file = "assets/maps/smallintestine.tmx";
         _tilemap = AssetPaths.guts__png;
-        _player_start_position = new FlxPoint(2000, 1100);
+        _player_start_position = new FlxPoint(580, 2800);
         
         _monster_start_positions = new Array();
         _monster_start_positions.push(new FlxPoint(1000, 1000));

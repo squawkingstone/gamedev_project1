@@ -18,8 +18,9 @@ class OutroState extends FlxState
         scoreboard.bind("Save");
         var score = scoreboard.data.score;
         super.create();
-        if (score >= 1000) var text = new flixel.text.FlxText(0, 0, 400, "Congratulations Pilot, you have saved humanity. I hereby declare you the savior of humanity!", 16);
-        else var text = new flixel.text.FlxText(0, 0, 400, "You did not gather enough information for us to develop a vaccine. Humanity is doomed.", 16);
+		var text;
+        if (score >= 1000) text = new flixel.text.FlxText(0, 0, 400, "Congratulations Pilot, you have saved humanity. I hereby declare you the savior of humanity!", 16);
+        else text = new flixel.text.FlxText(0, 0, 400, "You did not gather enough information for us to develop a vaccine. Humanity is doomed.", 16);
         text.screenCenter();
         add(text);
         newgameButton = new FlxButton(280, 280, "Play Again?", clickNewGame);

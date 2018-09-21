@@ -10,7 +10,7 @@ import flixel.util.FlxSave;
 class Monster extends Hurtable
 {
     var scoreboard:FlxSave;
-    var _walking_speed = 0;
+    var _walking_speed = 48;
     var _damage = 10;
     var velx = 0;
       
@@ -31,7 +31,7 @@ class Monster extends Hurtable
     override public function update(elapsed:Float):Void
     {
         if (isTouching(FlxObject.WALL)) velx *= -1;
-        velocity.set(velx, 0);
+        velocity.set(velx, velocity.y);
         super.update(elapsed);
     }
     override public function kill()

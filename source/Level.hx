@@ -50,8 +50,6 @@ class Level extends FlxState
         scoreboard = new FlxSave();
         scoreboard.bind("Save");
         //this part should go just before the level changes
-        score = scoreboard.data.score;
-        scoreboard.flush();
         var tiled_map:TiledMap = new TiledMap(_file);
         var text = new flixel.text.FlxText(0, 0, 400, Std.string(score), 16);
         add(text);
@@ -105,6 +103,8 @@ class Level extends FlxState
 
         Timer.delay(function () 
         {
+            scoreboard.data.score = score;
+            scoreboard.flush(); 
             FlxG.switchState(_next_level);
         }, _level_time);
 

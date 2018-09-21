@@ -8,6 +8,8 @@ import flixel.FlxG;
 import flixel.util.FlxSave;
 import haxe.Serializer;
 import haxe.Unserializer;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 class MenuState extends FlxState
 {
@@ -29,6 +31,10 @@ class MenuState extends FlxState
         add(startButton);
         instructionsButton = new FlxButton(280, 260, "INSTRUCTIONS", clickLearn);
         add(instructionsButton);
+        var title = new FlxText(0, 10, 640, "OUTBREAK", 64, false);
+        title.setFormat(null, 64, FlxColor.WHITE, FlxTextAlign.CENTER, null, FlxColor.WHITE, false);
+        title.scrollFactor.set(0,0);
+        add(title);
         super.create();
 
 

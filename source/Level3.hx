@@ -18,7 +18,7 @@ class Level3 extends Level
         _monster_start_positions.push(new FlxPoint(500, 450));
         _monster_start_positions.push(new FlxPoint(600, 550));
         _monster_start_positions.push(new FlxPoint(700, 650));
-       
+		
         _monster_start_positions.push(new FlxPoint(900, 850));
         _monster_start_positions.push(new FlxPoint(100, 950));
         _monster_start_positions.push(new FlxPoint(1100, 1050));
@@ -33,6 +33,17 @@ class Level3 extends Level
        
         _monster_start_positions.push(new FlxPoint(100, 1000));
         _monster_start_positions.push(new FlxPoint(1100, 1100));
+		
+		_monster_start_positions.push(new FlxPoint(1600, 576));
+        _monster_start_positions.push(new FlxPoint(1600, 950));
+		_monster_start_positions.push(new FlxPoint(320, 1152));
+        _monster_start_positions.push(new FlxPoint(256, 950));
+		_monster_start_positions.push(new FlxPoint(256, 700));
+        _monster_start_positions.push(new FlxPoint(720, 900));
+		_monster_start_positions.push(new FlxPoint(400, 800));
+        _monster_start_positions.push(new FlxPoint(140, 1152));
+		_monster_start_positions.push(new FlxPoint(700, 1152));
+        _monster_start_positions.push(new FlxPoint(780, 940));
 
 
         _cache_start_positions = new Array();

@@ -9,6 +9,7 @@ class MenuState extends FlxState
 {
     var startButton : FlxButton;
     var background : FlxSprite;
+    var instructionsButton : FlxButton;
 
     override public function create():Void
     {
@@ -18,7 +19,10 @@ class MenuState extends FlxState
         startButton = new FlxButton(20, 20, "START", clickPlay);
         startButton.screenCenter();
         add(startButton);
+        instructionsButton = new FlxButton(280, 260, "INSTRUCTIONS", clickLearn);
+        add(instructionsButton);
         super.create();
+
 
     }
 
@@ -30,5 +34,9 @@ class MenuState extends FlxState
     function clickPlay():Void
     {
         FlxG.switchState(new IntroState());
+    }
+    function clickLearn():Void
+    {
+        FlxG.switchState(new LearnState());
     }
 }

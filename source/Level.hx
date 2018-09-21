@@ -12,6 +12,7 @@ import flixel.FlxObject;
 import flixel.system.FlxAssets.FlxTilemapGraphicAsset;
 import flixel.FlxCamera.FlxCameraFollowStyle;
 import haxe.Timer;
+import flixel.util.FlxSave;
 
 class Level extends FlxState
 {
@@ -40,10 +41,17 @@ class Level extends FlxState
 
     var _next_level : FlxState;
 
+    var scoreboard:FlxSave;
+    var score = 0;
+
     override public function create():Void
     {
         FlxG.debugger.drawDebug = true;
-
+        scoreboard = new FlxSave();
+        scoreboard.bind("Save");
+        //this part should go just before the level changes
+        scoreboard.data.score = score;
+        scoreboard.flush();
         var tiled_map:TiledMap = new TiledMap(_file);
         FlxG.worldBounds.set(0, 0, tiled_map.fullWidth, tiled_map.fullHeight);
 

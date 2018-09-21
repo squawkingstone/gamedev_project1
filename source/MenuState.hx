@@ -4,6 +4,9 @@ import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
+import flixel.util.FlxSave;
+import haxe.Serializer;
+import haxe.Unserializer;
 
 class MenuState extends FlxState
 {

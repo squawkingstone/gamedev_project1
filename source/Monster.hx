@@ -5,9 +5,11 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
+import flixel.util.FlxSave;
 
 class Monster extends Hurtable
 {
+    var scoreboard:FlxSave;
     var _walking_speed = 0;
     var _damage = 10;
     var velx = 0;
@@ -30,5 +32,14 @@ class Monster extends Hurtable
         if (isTouching(FlxObject.WALL)) velx *= -1;
         velocity.set(velx, 0);
         super.update(elapsed);
+    }
+    override public function kill()
+    {
+        scoreboard = new FlxSave();
+        scoreboard.bind("Save");
+        scoreboard.data.score += 25;
+        scoreboard.flush();
+        trace("AWARD POINTS");
+        super.kill();
     }
 }

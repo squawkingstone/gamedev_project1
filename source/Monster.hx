@@ -22,6 +22,7 @@ class Monster extends Hurtable
         velx = _walking_speed;
         health = 5;
         velocity.set(velx, 0);
+        acceleration.y = -200.0;
     }
     
     override public function update(elapsed:Float):Void

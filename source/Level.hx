@@ -55,7 +55,12 @@ class Level extends FlxState
         _walls = new FlxTilemap();
         var wall_layer:TiledTileLayer = cast(tiled_map.getLayer("Walls"), TiledTileLayer);
         _walls.loadMapFromArray(wall_layer.tileArray, wall_layer.width, wall_layer.height, _tilemap, tiled_map.tileWidth, tiled_map.tileHeight, OFF, 1, 1, 3);
-        _walls.setTileProperties(2, FlxObject.ANY, null, null);
+        var wall_tiles = wall_layer.tileArray.copy().filter(function(i:Int){return i != 0;});
+        wall_tiles.sort(function(i1:Int, i2:Int){ return i1-i2; });
+        for(i in wall_tiles)
+        {
+           _walls.setTileProperties(i, FlxObject.ANY, null, null);
+        }
         add(_walls);
 
         _climb = new FlxTilemap();

@@ -35,12 +35,12 @@ class Level1 extends Level
         _monster_start_positions.push(new FlxPoint(2100, 2100));
 
         _cache_start_positions = new Array();
-        _cache_start_positions.push(new FlxPoint(16, 192));
-        _cache_start_positions.push(new FlxPoint(3000, 2200));
-        _cache_start_positions.push(new FlxPoint(1000, 196));
-        _cache_start_positions.push(new FlxPoint(2030, 1310));
-        _cache_start_positions.push(new FlxPoint(1230, 780));
-        _cache_start_positions.push(new FlxPoint(557, 999));
+        _cache_start_positions.push(new FlxPoint(1856, 2560));
+        _cache_start_positions.push(new FlxPoint(2560, 2560));
+        _cache_start_positions.push(new FlxPoint(2560, 1984));
+        _cache_start_positions.push(new FlxPoint(1152, 2304));
+        _cache_start_positions.push(new FlxPoint(960, 1920));
+        
     
 
         _next_level = new Level2();

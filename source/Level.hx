@@ -50,9 +50,11 @@ class Level extends FlxState
         scoreboard = new FlxSave();
         scoreboard.bind("Save");
         //this part should go just before the level changes
-        scoreboard.data.score = score;
+        score = scoreboard.data.score;
         scoreboard.flush();
         var tiled_map:TiledMap = new TiledMap(_file);
+        var text = new flixel.text.FlxText(0, 0, 400, Std.string(score), 16);
+        add(text);
         FlxG.worldBounds.set(0, 0, tiled_map.fullWidth, tiled_map.fullHeight);
 
         _background = new FlxTilemap();
@@ -112,6 +114,7 @@ class Level extends FlxState
     override public function update(elapsed:Float):Void
     {
         super.update(elapsed);
+        score = scoreboard.data.score;
         FlxG.collide(_walls, _player, null);
         FlxG.collide(_walls, _monsters, null);
         FlxG.collide(_caches, _player, null);

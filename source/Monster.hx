@@ -26,7 +26,7 @@ class Monster extends Hurtable
         animation.play("walking");
         allowCollisions = FlxObject.ANY;
         velx = _walking_speed;
-        health = 5;
+        health = 2;
         velocity.set(velx, 0);
         acceleration.y = 200.0;
     }
@@ -43,7 +43,7 @@ class Monster extends Hurtable
     override public function hurt(damage:Float):Void
     {
         animation.play("hit");
-        Timer.delay(function () { animation.play("walking"); }, 1000);
+        Timer.delay(function () { animation.play("walking"); }, 600);
         super.hurt(damage);
     }
 

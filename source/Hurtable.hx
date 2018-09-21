@@ -23,10 +23,11 @@ class Hurtable extends FlxSprite
     override public function hurt(damage:Float)
     {
         if (_damage_flicker_countdown <= 0.0)
-        super.hurt(damage);
-        _damage_flicker_countdown = _damage_flicker_time;
-        color = _hurt_color;
-        trace("OUCH");
+        {
+            super.hurt(damage);
+            _damage_flicker_countdown = _damage_flicker_time;
+            color = _hurt_color;
+        }
     }
 
     override public function update(elapsed:Float)

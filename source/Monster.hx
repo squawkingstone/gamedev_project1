@@ -32,7 +32,7 @@ class Monster extends Hurtable
     {
         if (isTouching(FlxObject.WALL)) velx *= -1;
         velocity.set(velx, velocity.y);
-        super.update(elapsed);
+            super.update(elapsed);
     }
     override public function kill()
     {

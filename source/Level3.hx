@@ -36,7 +36,11 @@ class Level3 extends Level
 
 
         _cache_start_positions = new Array();
-        _cache_start_positions.push(new FlxPoint(16, 192));
+        _cache_start_positions.push(new FlxPoint(832, 917));
+        _cache_start_positions.push(new FlxPoint(477, 704));
+        _cache_start_positions.push(new FlxPoint(1612, 385));
+        _cache_start_positions.push(new FlxPoint(1192, 442));
+        _cache_start_positions.push(new FlxPoint(1367, 1980));
 
         _next_level = new OutroState();
         _level_time = 60000;

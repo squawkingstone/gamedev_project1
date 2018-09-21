@@ -7,7 +7,7 @@ import haxe.Timer;
 class Hurtable extends FlxSprite
 {
     var _invincibility_countdown : Float = 0.0;
-    var _invincibility_time : Float = 1.0;
+    var _invincibility_time : Float = 0.6;
     var _hurt_color = 0xFFFF8080;
 
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)

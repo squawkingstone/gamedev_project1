@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
 import flixel.util.FlxSave;
+import haxe.Timer;
 
 class Monster extends Hurtable
 {
@@ -18,7 +19,9 @@ class Monster extends Hurtable
     {
         super(X, Y, SimpleGraphic);
         loadGraphic("assets/images/enemymoveattack.png", true, 64, 64);
-        animation.add("walking", [0,1,2,3,4,5], 1, true, false, false);
+        setFacingFlip(FlxObject.LEFT, false, false);
+        setFacingFlip(FlxObject.RIGHT, true, false);
+        animation.add("walking", [0,1,2,3,4,5], 10, true, false, false);
         animation.add("hit", [6], 1, false, true, false);
         animation.play("walking");
         allowCollisions = FlxObject.ANY;
@@ -32,8 +35,18 @@ class Monster extends Hurtable
     {
         if (isTouching(FlxObject.WALL)) velx *= -1;
         velocity.set(velx, velocity.y);
-            super.update(elapsed);
+        if (velocity.x > 0) facing = FlxObject.RIGHT; 
+        else facing = FlxObject.LEFT;
+        super.update(elapsed);
     }
+
+    override public function hurt(damage:Float):Void
+    {
+        animation.play("hit");
+        Timer.delay(function () { animation.play("walking"); }, 1000);
+        super.hurt(damage);
+    }
+
     override public function kill()
     {
         scoreboard = new FlxSave();

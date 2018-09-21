@@ -13,6 +13,8 @@ import flixel.system.FlxAssets.FlxTilemapGraphicAsset;
 import flixel.FlxCamera.FlxCameraFollowStyle;
 import haxe.Timer;
 import flixel.util.FlxSave;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 class Level extends FlxState
 {
@@ -44,6 +46,14 @@ class Level extends FlxState
     var scoreboard:FlxSave;
     var score = 0;
 
+    var text : FlxText;
+
+    var health_text : FlxText;
+    var time_text : FlxText;
+    var score_text : FlxText;
+
+    var elapsed_time : Float;
+
     override public function create():Void
     {
         FlxG.debugger.drawDebug = true;
@@ -51,8 +61,6 @@ class Level extends FlxState
         scoreboard.bind("Save");
         //this part should go just before the level changes
         var tiled_map:TiledMap = new TiledMap(_file);
-        var text = new flixel.text.FlxText(0, 0, 400, Std.string(score), 16);
-        add(text);
         FlxG.worldBounds.set(0, 0, tiled_map.fullWidth, tiled_map.fullHeight);
 
         _background = new FlxTilemap();
@@ -71,17 +79,12 @@ class Level extends FlxState
         }
         add(_walls);
 
+        
+
         _climb = new FlxTilemap();
         var climb_layer:TiledTileLayer = cast(tiled_map.getLayer("Climbable"), TiledTileLayer);
         _climb.loadMapFromArray(climb_layer.tileArray, climb_layer.width, climb_layer.height, _tilemap, tiled_map.tileWidth, tiled_map.tileHeight, OFF, 1, 1, 1);    
         add(_climb);
-
-        _player = new Player(_player_start_position.x, _player_start_position.y);
-        add(_player);
-
-        _attack_object = new FlxObject(_player.x, _player.y, _player.width, _player.height);
-        _attack_object.allowCollisions = FlxObject.NONE;
-        add(_attack_object);
 
         _monsters = new FlxGroup(32);
         for (pos in _monster_start_positions)
@@ -99,8 +102,32 @@ class Level extends FlxState
             _caches.add(c);
         }
 
+        _player = new Player(_player_start_position.x, _player_start_position.y);
+        add(_player);
+
+        _attack_object = new FlxObject(_player.x, _player.y, _player.width, _player.height);
+        _attack_object.allowCollisions = FlxObject.NONE;
+        add(_attack_object);
+
         FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.5);
 
+        health_text = new FlxText(10, 10, 100, "Health: " + Std.string(_player.health), 16, false);
+        health_text.scrollFactor.set(0,0);
+        add(health_text); 
+
+        elapsed_time = 0;
+
+        time_text = new FlxText(170, 10, 300, "Time Remaining: ", 16, false);
+        time_text.setFormat(null, 16, FlxColor.WHITE, FlxTextAlign.CENTER, null, FlxColor.WHITE, false);
+        time_text.scrollFactor.set(0,0);
+        add(time_text);
+
+        score_text = new FlxText(330, 10, 300, "Score: " + Std.string(scoreboard.data.score), 16, false);
+        score_text.setFormat(null, 16, FlxColor.WHITE, FlxTextAlign.RIGHT, null, FlxColor.WHITE, false);
+        score_text.scrollFactor.set(0,0);
+        add(score_text);
+
+        //score_text 
         Timer.delay(function () 
         {
             scoreboard.data.score = score;
@@ -142,7 +169,11 @@ class Level extends FlxState
             }
         }
 
-        
+        elapsed_time += elapsed;
+
+        health_text.text = "Health: " + Std.string(_player.health);
+        time_text.text = "Time Remaining: " + Std.string(Math.floor((_level_time - Math.floor(elapsed_time * 1000)) / 1000));
+        score_text.text = "Score: " + Std.string(scoreboard.data.score);
     }
 
 }

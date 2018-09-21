@@ -17,8 +17,9 @@ class Monster extends Hurtable
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
     {
         super(X, Y, SimpleGraphic);
-        loadGraphic("assets/images/player.png", true, 16, 16);
-        animation.add("walking", [0], 1, true, false, false);
+        loadGraphic("assets/images/enemymoveattack.png", true, 64, 64);
+        animation.add("walking", [0,1,2,3,4,5], 1, true, false, false);
+        animation.add("hit", [6], 1, false, true, false);
         animation.play("walking");
         allowCollisions = FlxObject.ANY;
         velx = _walking_speed;

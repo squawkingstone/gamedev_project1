@@ -11,7 +11,7 @@ class Cache extends Hurtable
     {
         super(X, Y, SimpleGraphic);
         /* REPLACE WITH ACTUAL GRPAHIC */
-        makeGraphic(32, 32, 0xFFFFFFFF, false, null);
+        makeGraphic(128, 128, 0xFFFFFFFF, false, null);
         setSize(32, 32);
         allowCollisions = FlxObject.ANY;
         immovable = true;

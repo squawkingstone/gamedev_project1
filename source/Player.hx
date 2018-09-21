@@ -120,7 +120,6 @@ class Player extends Hurtable
         super.update(elapsed);
         if (_attack_countdown > 0.0) _attack_countdown -= elapsed;
 
-        if (FlxG.keys.justPressed.K) { health = 0; }
         update_animation();
     }
 
@@ -128,7 +127,6 @@ class Player extends Hurtable
     {
         var next_state : AnimState = IDLE;
 
-        trace(velocity.x);
         if (Math.abs(velocity.x) <= 10 && Math.abs(velocity.y) <= 10)
         {
             if (!_climbing) { next_state = IDLE; }

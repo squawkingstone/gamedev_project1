@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
+import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import haxe.Timer;
 
@@ -33,7 +35,8 @@ class Player extends Hurtable
     var _attack_countdown = 0.0;
 
     var _anim_state : AnimState = IDLE;
-
+	var jumpsound : FlxSound;
+	
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
     {
         super(X, Y, SimpleGraphic);
@@ -50,6 +53,7 @@ class Player extends Hurtable
         animation.play("idle");
         health = 10;
         acceleration.y = _gravity;
+		jumpsound = FlxG.sound.load(AssetPaths.Jump__wav);
     }
 
     public function process_movement(climb_overlap:Bool):Void
@@ -84,7 +88,10 @@ class Player extends Hurtable
             if (velx < 0.0) { facing = FlxObject.LEFT; }
 
             velocity.x = velx;
-            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.FLOOR)) velocity.y = -_jump_speed;
+            if (FlxG.keys.justPressed.SPACE && isTouching(FlxObject.FLOOR)) {
+				velocity.y = -_jump_speed;
+				jumpsound.play(true);
+			}
             if ((FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W) && climb_overlap) toggle_climbing(true, false);
         }
     }
@@ -111,7 +118,10 @@ class Player extends Hurtable
         {
             acceleration.y = _gravity;
             _climbing = false;
-            if (jumping) velocity.y -= _jump_speed;
+            if (jumping) {
+				velocity.y -= _jump_speed;
+				jumpsound.play(true);
+			}
         }
     }
 

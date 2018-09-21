@@ -5,7 +5,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
-class Player extends FlxSprite
+class Player extends Hurtable
 {
     /* STATIC PROPERTIES */
     var _walking_speed = 128.0;
@@ -37,6 +37,7 @@ class Player extends FlxSprite
         animation.add("idle", [50,51,52,53], 10, true, false, false);
         animation.add("death", [60,61,62], 10, false, false, false);
         animation.play("idle");
+        health = 5;
         acceleration.y = _gravity;
     }
 
@@ -77,7 +78,6 @@ class Player extends FlxSprite
         }
     }
 
-    // cache attack function
     public function process_attack(target:FlxSprite)
     {
         if (FlxG.keys.justPressed.F && _attack_countdown <= 0.0) 

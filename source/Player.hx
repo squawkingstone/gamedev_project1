@@ -204,6 +204,7 @@ class Player extends Hurtable
 
     public function super_kill()
     {
+        FlxG.switchState(new GameOverState());
         super.kill();
     }
 

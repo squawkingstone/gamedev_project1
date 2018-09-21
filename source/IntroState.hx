@@ -4,9 +4,12 @@ import flixel.FlxState;
 import flixel.FlxGame;
 import haxe.Timer;
 import flixel.FlxG;
+import flixel.ui.FlxButton;
 
 class IntroState extends FlxState
 {
+    var playButton : FlxButton;
+
     override public function create():Void
     {
         super.create();
@@ -14,13 +17,17 @@ class IntroState extends FlxState
 ", 16);
         text.screenCenter();
         add(text);
-        Timer.delay(function () {
-            FlxG.switchState(new MovementState());
-        }, 15000);
+        playButton = new FlxButton(280, 380, "Play", clickPlay);
+        add(playButton);
     }
 
     override public function update(elapsed:Float):Void
     {
         super.update(elapsed);
     }
+    function clickPlay():Void
+    {
+        FlxG.switchState(new MovementState());
+    }
+
 }

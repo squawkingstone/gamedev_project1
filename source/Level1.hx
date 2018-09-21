@@ -36,6 +36,12 @@ class Level1 extends Level
 
         _cache_start_positions = new Array();
         _cache_start_positions.push(new FlxPoint(16, 192));
+        _cache_start_positions.push(new FlxPoint(3000, 2200));
+        _cache_start_positions.push(new FlxPoint(1000, 196));
+        _cache_start_positions.push(new FlxPoint(2030, 1310));
+        _cache_start_positions.push(new FlxPoint(1230, 780));
+        _cache_start_positions.push(new FlxPoint(557, 999));
+    
 
         _next_level = new Level2();
         _level_time = 60000;

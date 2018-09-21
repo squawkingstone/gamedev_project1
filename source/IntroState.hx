@@ -19,6 +19,10 @@ class IntroState extends FlxState
         add(text);
         playButton = new FlxButton(280, 380, "Play", clickPlay);
         add(playButton);
+
+        var save = new FlxSave();
+        save.bind("Save");
+        save.data.score = 0;
     }
 
     override public function update(elapsed:Float):Void

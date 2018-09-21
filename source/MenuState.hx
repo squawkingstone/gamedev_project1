@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flixel.util.FlxSave;
@@ -13,9 +14,13 @@ class MenuState extends FlxState
     var startButton : FlxButton;
     var background : FlxSprite;
     var instructionsButton : FlxButton;
+	var jumpsound : FlxSound;
 
     override public function create():Void
     {
+		if (FlxG.sound.music == null) {
+			FlxG.sound.playMusic(AssetPaths.Music__wav, 1, true);
+		}
         background = new FlxSprite();
         background.loadGraphic(AssetPaths.MenuImage__png);
         add(background);

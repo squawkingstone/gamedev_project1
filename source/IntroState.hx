@@ -5,11 +5,11 @@ import flixel.FlxGame;
 import haxe.Timer;
 import flixel.FlxG;
 import flixel.ui.FlxButton;
+import flixel.util.FlxSave;
 
 class IntroState extends FlxState
 {
     var playButton : FlxButton;
-
     override public function create():Void
     {
         super.create();
@@ -27,7 +27,7 @@ class IntroState extends FlxState
     }
     function clickPlay():Void
     {
-        FlxG.switchState(new Level3());
+        FlxG.switchState(new Level1());
     }
 
 }

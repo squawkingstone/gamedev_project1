@@ -21,10 +21,10 @@ enum AnimState
 class Player extends Hurtable
 {
     /* STATIC PROPERTIES */
-    var _walking_speed = 128.0;
+    var _walking_speed = 130.0;
     var _climbing_speed = 80.0;
-    var _jump_speed = 100.0;
-    var _gravity = 200.0;
+    var _jump_speed = 250.0;
+    var _gravity = 350.0;
     var _attack_cooldown = 1.0;
     var _damage = 1;
 

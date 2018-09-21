@@ -117,6 +117,10 @@ class Level extends FlxState
             {
                 _player.process_attack(cast(m, FlxSprite));
             }
+            if (_player.overlaps(m, false, null))
+            {
+                _player.hurt(1);
+            }
         }
 
         for (c in _caches)
@@ -126,6 +130,8 @@ class Level extends FlxState
                 _player.process_attack(cast(c, FlxSprite));
             }
         }
+
+        
     }
 
 }

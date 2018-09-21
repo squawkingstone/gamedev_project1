@@ -4,6 +4,19 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import haxe.Timer;
+
+enum AnimState
+{
+    IDLE;
+    WALK;
+    CLIMB;
+    JUMP;
+    FALL;
+    ATTACK;
+    JUMP_ATTACK;
+    DEATH;
+}
 
 class Player extends Hurtable
 {
@@ -18,10 +31,8 @@ class Player extends Hurtable
     /* DYNAMIC PROPERTIES */
     var _climbing:Bool = false;
     var _attack_countdown = 0.0;
-    
-    /* PUBLIC VARIABLES */
-    public var _facing = FlxObject.LEFT;
-    public var _points:Int = 0;
+
+    var _anim_state : AnimState = IDLE;
 
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
     {
@@ -37,7 +48,7 @@ class Player extends Hurtable
         animation.add("idle", [50,51,52,53], 10, true, false, false);
         animation.add("death", [60,61,62], 10, false, false, false);
         animation.play("idle");
-        health = 5;
+        health = 10;
         acceleration.y = _gravity;
     }
 
@@ -108,6 +119,57 @@ class Player extends Hurtable
     {
         super.update(elapsed);
         if (_attack_countdown > 0.0) _attack_countdown -= elapsed;
+
+        if (FlxG.keys.justPressed.K) { health = 0; }
+        update_animation();
+    }
+
+    public function update_animation()
+    {
+        var next_state : AnimState = IDLE;
+
+        trace(velocity.x);
+        if (Math.abs(velocity.x) <= 10 && Math.abs(velocity.y) <= 10)
+        {
+            if (!_climbing) { next_state = IDLE; }
+            if (_climbing) { next_state = CLIMB; }
+        }
+        else
+        {
+            if (!_climbing) { next_state = WALK; }
+            if (_climbing) { next_state = CLIMB; }
+        }
+
+        if (_anim_state != next_state)
+        {
+            _anim_state = next_state;
+            switch(_anim_state)
+            {
+                case IDLE:
+                    animation.play("idle");
+                case WALK:
+                    animation.play("walk");
+                case CLIMB:
+                    animation.play("climb");
+                default:
+                    animation.play("jump");
+            }
+        }
+
+    }   
+
+    override public function kill():Void
+    {
+        animation.play("death");
+        Timer.delay(function () 
+        {
+            super_kill();
+        }, 300);
+    }
+
+    public function super_kill()
+    {
+        super.kill();
     }
 
 }
